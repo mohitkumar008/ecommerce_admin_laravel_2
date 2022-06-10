@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,5 +46,12 @@ Route::prefix('/admin')->group(function () {
         Route::get('categories/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
         Route::any('categories/manage-category/{id?}', [CategoryController::class, 'manage_category'])->name('manageCategory');
         Route::post('append-category-level', [CategoryController::class, 'appendCategoryLevel']);
+
+        //ProductController
+        Route::get('products', [ProductController::class, 'index']);
+        Route::post('products/changeStatus', [ProductController::class, 'change_status']);
+        Route::post('products/deleteProduct', [ProductController::class, 'deleteProduct']);
+        Route::any('products/manage-product/{id?}', [ProductController::class, 'manage_product'])->name('manageProduct');
+        // Route::post('append-category-level', [ProductController::class, 'appendCategoryLevel']);
     });
 });

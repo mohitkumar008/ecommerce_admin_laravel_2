@@ -55,3 +55,55 @@ $('#sectionData').change(function () {
 
     })
 })
+
+function changeProductStatus(id, action) {
+    var changeStatus = confirm('Are you sure you want to ' + action)
+    if (changeStatus == true) {
+        let _token = $("input[name=_token]").val();
+        $.ajax({
+            method: 'POST',
+            url: `/admin/products/changeStatus`,
+            data: { id: id, action: action, _token: _token },
+            success: function (response) {
+                alert(response);
+                window.location.reload();
+            },
+            error: function (response) {
+                alert(response);
+            }
+
+        })
+    }
+}
+
+function deleteProduct(id, action) {
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/products/deleteProduct`,
+                    data: { id: id, action: action, _token: _token },
+                    success: async function (response) {
+                        await swal("Poof! Your product has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            } else {
+                swal("Your product is safe!");
+            }
+        });
+}
