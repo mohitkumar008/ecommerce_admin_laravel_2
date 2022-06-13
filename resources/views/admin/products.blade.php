@@ -29,7 +29,7 @@
                         <h4 class="card-title text-success">{{ session('flash_msg') }}</h4>
                     @endif
                     <div class="table-responsive">
-                        <table class="table table-striped" id="datatables">
+                        <table class="table" id="datatables">
                             <thead>
                                 <tr>
                                     <th>
@@ -68,8 +68,12 @@
                                             {{ $loop->iteration }}.
                                         </td>
                                         <td>
-                                            <img src="{{ url('storage/media/product_images/' . $list['product_image'] . '') }}"
-                                                alt="image">
+                                            @if ($list['product_image'] != '')
+                                                <img src="{{ url('storage/media/product_images/' . $list['product_image'] . '') }}"
+                                                    alt="image">
+                                            @else
+                                                <img src="{{ asset('admin_assets/images/demo.jpg') }}" alt="image">
+                                            @endif
 
                                         </td>
                                         <td>
@@ -114,6 +118,17 @@
                                                         class="btn btn-inverse-success btn-rounded btn-icon flex-align-justify-center"><i
                                                             class="mdi mdi-security"></i></button>
                                                 @endif
+                                                <a type="button"
+                                                    href="{{ route('addAttribute', ['id' => $list['id']]) }}"
+                                                    title="Add Attribute"
+                                                    class="btn btn-inverse-success btn-rounded btn-icon flex-align-justify-center">
+                                                    <i class="mdi mdi-library-plus"></i>
+                                                </a>
+                                                <a type="button" href="{{ route('addGallery', ['id' => $list['id']]) }}"
+                                                    title="Add Gallery"
+                                                    class="btn btn-inverse-warning btn-rounded btn-icon flex-align-justify-center">
+                                                    <i class="mdi mdi-image-multiple"></i>
+                                                </a>
                                                 <a type="button"
                                                     href="{{ route('manageProduct', ['id' => $list['id']]) }}"
                                                     title="Edit"

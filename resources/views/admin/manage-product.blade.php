@@ -43,11 +43,18 @@
                                 @foreach ($category as $section)
                                     <option disabled>{{ $section['name'] }}</option>
                                     @foreach ($section['categories'] as $categoryList)
-                                        <option value="{{ $categoryList['id'] }}">
+                                        <option
+                                            @if (!empty($productData)) @if ($productData['category_id'] == $categoryList['id']) {{ 'selected' }} @endif
+                                            @endif
+
+                                            value="{{ $categoryList['id'] }}">
                                             &nbsp;&nbsp;&nbsp;—{{ $categoryList['category_name'] }}
                                         </option>
                                         @foreach ($categoryList['subcategories'] as $subcategoryList)
-                                            <option value="{{ $subcategoryList['id'] }}">
+                                            <option
+                                                @if (!empty($productData)) @if ($productData['category_id'] == $subcategoryList['id']) {{ 'selected' }} @endif
+                                                @endif
+                                                value="{{ $subcategoryList['id'] }}">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;—{{ $subcategoryList['category_name'] }}
                                             </option>
                                         @endforeach
@@ -59,7 +66,7 @@
                             <label for="product_name">Product Name<span class="text-warning">*</span></label>
                             <input type="text" class="form-control"
                                 @if (!empty($productData)) value="{{ $productData['product_name'] }}" @else value="{{ old('product_name') }}" @endif
-                                id="product_name" name="product_name" placeholder="Category Name">
+                                id="product_name" name="product_name" placeholder="Product Name">
                         </div>
                         <div class="form-group">
                             <label for="product_url">Product Url<span class="text-warning">*</span></label>
@@ -78,7 +85,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="product_color">Product Color<span class="text-warning">*</span></label>
+                                    <label for="product_color">Product Color</label>
                                     <input type="text" class="form-control" id="product_color" name="product_color"
                                         @if (!empty($productData)) value="{{ $productData['product_color'] }}" @else value="{{ old('product_color') }}" @endif
                                         placeholder="Product Color">
@@ -96,7 +103,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="product_price">Product Price<span class="text-warning">*</span></label>
+                                    <label for="product_price">Product Price</label>
                                     <input type="text" class="form-control" id="product_price" name="product_price"
                                         @if (!empty($productData)) value="{{ $productData['product_price'] }}" @else value="{{ old('product_price') }}" @endif
                                         placeholder="Product Price">
@@ -106,7 +113,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12">
                                 <div class="form-group">
-                                    <label for="product_weight">Product Weight<span class="text-warning">*</span></label>
+                                    <label for="product_weight">Product Weight</label>
                                     <input type="text" class="form-control" id="product_weight" name="product_weight"
                                         @if (!empty($productData)) value="{{ $productData['product_weight'] }}" @else value="{{ old('product_weight') }}" @endif
                                         placeholder="Product Weight">
@@ -127,7 +134,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Product Image</label>
+                            <label>Product Image<span class="text-warning">*</span></label>
                             <input type="file" name="product_image" id="product_image" class="file-upload-default">
                             <div class="input-group col-xs-12">
                                 <input type="text" class="form-control file-upload-info" disabled=""
@@ -138,7 +145,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="product_short_desc">Short Description</label>
+                            <label for="product_short_desc">Short Description<span class="text-warning">*</span></label>
                             <textarea class="form-control" id="product_short_desc" name="product_short_desc" rows="4">
 @if (!empty($productData))
 {{ $productData['product_short_desc'] }}
@@ -148,7 +155,7 @@
 </textarea>
                         </div>
                         <div class="form-group">
-                            <label for="product_long_desc">Description</label>
+                            <label for="product_long_desc">Description<span class="text-warning">*</span></label>
                             <textarea class="form-control" id="product_long_desc" name="product_long_desc" rows="8">
 @if (!empty($productData))
 {{ $productData['product_long_desc'] }}

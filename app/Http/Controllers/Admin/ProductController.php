@@ -25,10 +25,10 @@ class ProductController extends Controller
     {
         if ($request->post('action') == 'deactivate') {
             $update_status = 0;
-            $msg = '*Deactivaed successfully';
+            $msg = 'deactivaed';
         } else {
             $update_status = 1;
-            $msg = '*Activaed successfully';
+            $msg = 'activaed';
         }
         $statusChanged = Product::where(['id' => $request->post('id')])->update(['status' => $update_status]);
         if ($statusChanged) {
@@ -77,7 +77,6 @@ class ProductController extends Controller
                 'product_url' => 'required|unique:products,product_url,' . $id,
                 'product_code' => 'required',
                 'product_mrp' => 'required',
-                'product_image' => 'required',
                 'product_short_desc' => 'required',
                 'product_long_desc' => 'required',
             ];
@@ -86,7 +85,6 @@ class ProductController extends Controller
                 'product_url.required' => 'Product url is required',
                 'product_code.unique' => 'Product code is required',
                 'product_mrp.unique' => 'Product MRP is required',
-                'product_image.image' => 'Valid product image is required',
                 'product_short_desc.unique' => 'Short Description is required',
                 'product_long_desc.unique' => 'Description is required',
             ];
@@ -98,8 +96,6 @@ class ProductController extends Controller
                 $image_name = rand(111111111, 999999999) . '.' . $ext;
                 $image->storeAs('/public/media/product_images/', $image_name);
                 $product->product_image = $image_name;
-            } else {
-                $product->product_image = $productData['product_image'];
             }
 
             if ($request->hasFile('product_video')) {
@@ -108,8 +104,6 @@ class ProductController extends Controller
                 $video_name = rand(111111111, 999999999) . '.' . $ext;
                 $video->storeAs('/public/media/product_images/', $video_name);
                 $product->product_video = $video_name;
-            } else {
-                $product->product_video = "";
             }
 
             $product->category_id = $data['category_id'];
@@ -133,11 +127,10 @@ class ProductController extends Controller
         return view('/admin/manage-product')->with(compact('page_title', 'productData', 'category'));
     }
 
-    public function deleteCategory(Request $request, $id)
+    public function addGallery(Request $request, $id)
     {
-        $category = Product::find($id);
-        $category->delete();
-
-        return redirect('/admin/products')->with('flash_msg', 'Product deleted successfully');
+        $productData = Product::find($id);
+        $productData = json_decode(json_encode($productData), true);
+        return view('admin.add-gallery')->with(compact('productData'));
     }
 }

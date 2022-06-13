@@ -28,3 +28,17 @@ select.form-control,
 .dataTables_wrapper select {
     padding: 0.875rem 1.375rem !important;
 }
+
+#add-attr-btn {
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 50% !important;
+}
+
+#add-attr-btn i {
+    font-size: 7.25rem;
+}
+
+.text-end {
+    text-align: end;
+}

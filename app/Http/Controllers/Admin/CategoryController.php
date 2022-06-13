@@ -20,17 +20,19 @@ class CategoryController extends Controller
         return view('admin/categories', $result);
     }
 
-    public function change_status(Request $request, $status, $id)
+    public function change_status(Request $request)
     {
-        if ($status == 'deactivate') {
+        if ($request->post('action') == 'deactivate') {
             $update_status = 0;
-            $msg = '*Deactivaed successfully';
+            $msg = 'deactivaed';
         } else {
             $update_status = 1;
-            $msg = '*Activaed successfully';
+            $msg = 'activaed';
         }
-        Category::where(['id' => $id])->update(['status' => $update_status]);
-        return redirect('/admin/categories')->with('flash_msg', $msg);
+        $statusChanged = Category::where(['id' => $request->post('id')])->update(['status' => $update_status]);
+        if ($statusChanged) {
+            echo $msg;
+        }
     }
 
     public function appendCategoryLevel(Request $request)
@@ -114,11 +116,13 @@ class CategoryController extends Controller
         return view('/admin/manage-category', $result);
     }
 
-    public function deleteCategory(Request $request, $id)
+    public function deleteCategory(Request $request)
     {
-        $category = Category::find($id);
-        $category->delete();
-
-        return redirect('/admin/categories')->with('flash_msg', 'Category deleted successfully');
+        if ($request->post('action') == 'delete') {
+            $msg = 'Category Deleted successfully';
+            $category = Category::find($request->post('id'));
+            $category->delete();
+            echo $msg;
+        }
     }
 }

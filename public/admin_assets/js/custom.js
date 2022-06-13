@@ -1,3 +1,10 @@
+$('#product_name').keyup(function () {
+    var getUrl = this.value
+    getUrl = getUrl.toLowerCase().replaceAll(" ", "-");
+    // console.log(getUrl);
+    $('#product_url').val(getUrl);
+})
+
 // Check current password
 $('#curr_pwd').keyup(function () {
     let curr_pwd = $('#curr_pwd').val();
@@ -56,24 +63,106 @@ $('#sectionData').change(function () {
     })
 })
 
-function changeProductStatus(id, action) {
-    var changeStatus = confirm('Are you sure you want to ' + action)
-    if (changeStatus == true) {
-        let _token = $("input[name=_token]").val();
-        $.ajax({
-            method: 'POST',
-            url: `/admin/products/changeStatus`,
-            data: { id: id, action: action, _token: _token },
-            success: function (response) {
-                alert(response);
-                window.location.reload();
-            },
-            error: function (response) {
-                alert(response);
-            }
-
-        })
+function changeCategoryStatus(id, action) {
+    if (action == 'activate') {
+        var $msg = 'If the category is activated, it will be visible on the Website';
+    } else {
+        var $msg = 'If the category is deactivated, it will be removed from the Website';
     }
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: $msg,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/category/changeStatus`,
+                    data: { id: id, action: action, _token: _token },
+                    success: async function (response) {
+                        await swal(`Poof! Your category has been ${response}`, {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            }
+        });
+}
+
+function changeProductStatus(id, action) {
+    if (action == 'activate') {
+        var $msg = 'If the product is activated, it will be visible on the Website';
+    } else {
+        var $msg = 'If the product is deactivated, it will be removed from the Website';
+    }
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: $msg,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/products/changeStatus`,
+                    data: { id: id, action: action, _token: _token },
+                    success: async function (response) {
+                        await swal(`Poof! Your product has been ${response}`, {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            }
+        });
+}
+
+function deleteCategory(id, action) {
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this category!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/category/deleteCategory`,
+                    data: { id: id, action: action, _token: _token },
+                    success: async function (response) {
+                        await swal("Poof! Your category has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            } else {
+                swal("Your category is safe!");
+            }
+        });
 }
 
 function deleteProduct(id, action) {
@@ -104,6 +193,36 @@ function deleteProduct(id, action) {
                 })
             } else {
                 swal("Your product is safe!");
+            }
+        });
+}
+
+function deleteAttr(id) {
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this attribute!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/products/deleteAttr`,
+                    data: { id: id, _token: _token },
+                    success: async function (response) {
+                        await swal("Poof! Attribute has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
             }
         });
 }

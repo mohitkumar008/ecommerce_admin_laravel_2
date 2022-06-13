@@ -29,6 +29,7 @@
                         <h4 class="card-title text-success">{{ session('flash_msg') }}</h4>
                     @endif
                     <div class="table-responsive">
+                        @csrf
                         <table class="table table-striped" id="datatables">
                             <thead>
                                 <tr>
@@ -95,16 +96,18 @@
                                         </td>
                                         <td>
                                             <div class="template-demo d-flex justify-content-between flex-nowrap">
-                                                @if ($list->status == 1)
-                                                    <a href="{{ route('status', ['id' => $list->id, 'status' => 'deactivate', 'url' => $list->url]) }}"
+                                                @if ($list['status'] == 1)
+                                                    <button
+                                                        onclick="changeCategoryStatus('{{ $list->id }}','deactivate')"
                                                         type="button" title="Deactivate"
                                                         class="btn btn-inverse-warning btn-rounded btn-icon flex-align-justify-center"><i
-                                                            class="mdi mdi-block-helper"></i></a>
+                                                            class="mdi mdi-block-helper"></i></button>
                                                 @else
-                                                    <a href="{{ route('status', ['id' => $list->id, 'status' => 'activate', 'url' => $list->url]) }}"
+                                                    <button
+                                                        onclick="changeCategoryStatus('{{ $list->id }}','activate')"
                                                         type="button" title="Activate"
                                                         class="btn btn-inverse-success btn-rounded btn-icon flex-align-justify-center"><i
-                                                            class="mdi mdi-security"></i></a>
+                                                            class="mdi mdi-security"></i></button>
                                                 @endif
                                                 <a type="button"
                                                     href="{{ route('manageCategory', ['id' => $list->id]) }}"
@@ -112,11 +115,11 @@
                                                     class="btn btn-inverse-info btn-rounded btn-icon flex-align-justify-center">
                                                     <i class="mdi mdi-lead-pencil"></i>
                                                 </a>
-                                                <a type="button" title="Delete"
-                                                    href="{{ route('deleteCategory', ['id' => $list->id]) }}"
+                                                <button onclick="deleteCategory('{{ $list->id }}','delete')"
+                                                    type="button" title="Delete"
                                                     class="btn btn-inverse-danger btn-rounded btn-icon flex-align-justify-center">
                                                     <i class="mdi mdi-delete-variant"></i>
-                                                </a>
+                                                </button>
                                             </div>
 
                                         </td>

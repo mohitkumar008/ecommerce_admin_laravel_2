@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductAttrController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +43,8 @@ Route::prefix('/admin')->group(function () {
 
         //CategoryController
         Route::get('categories', [CategoryController::class, 'index']);
-        Route::get('categories/{status}/{url}/{id}', [CategoryController::class, 'change_status'])->name('status');
-        Route::get('categories/delete/{id}', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
+        Route::post('category/changeStatus', [CategoryController::class, 'change_status']);
+        Route::post('category/deleteCategory', [CategoryController::class, 'deleteCategory']);
         Route::any('categories/manage-category/{id?}', [CategoryController::class, 'manage_category'])->name('manageCategory');
         Route::post('append-category-level', [CategoryController::class, 'appendCategoryLevel']);
 
@@ -52,6 +53,11 @@ Route::prefix('/admin')->group(function () {
         Route::post('products/changeStatus', [ProductController::class, 'change_status']);
         Route::post('products/deleteProduct', [ProductController::class, 'deleteProduct']);
         Route::any('products/manage-product/{id?}', [ProductController::class, 'manage_product'])->name('manageProduct');
-        // Route::post('append-category-level', [ProductController::class, 'appendCategoryLevel']);
+        // Add Gallery
+        Route::any('products/addGallery/{id?}', [ProductController::class, 'addGallery'])->name('addGallery');
+
+        //ProductAttrController
+        Route::any('products/add-attribute/{id?}', [ProductAttrController::class, 'addAttribute'])->name('addAttribute');
+        Route::post('products/deleteAttr', [ProductAttrController::class, 'deleteAttribute']);
     });
 });
