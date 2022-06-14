@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductAttrController;
+use App\Http\Controllers\Admin\ProdcutImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,8 +54,11 @@ Route::prefix('/admin')->group(function () {
         Route::post('products/changeStatus', [ProductController::class, 'change_status']);
         Route::post('products/deleteProduct', [ProductController::class, 'deleteProduct']);
         Route::any('products/manage-product/{id?}', [ProductController::class, 'manage_product'])->name('manageProduct');
-        // Add Gallery
-        Route::any('products/addGallery/{id?}', [ProductController::class, 'addGallery'])->name('addGallery');
+
+        // ProdcutImageController
+        Route::any('products/addGallery/{id?}', [ProdcutImageController::class, 'addGallery'])->name('addGallery');
+        Route::post('products/replaceGalleryImage', [ProdcutImageController::class, 'replaceImage']);
+        Route::post('products/deleteGalleryImage', [ProdcutImageController::class, 'deleteImage']);
 
         //ProductAttrController
         Route::any('products/add-attribute/{id?}', [ProductAttrController::class, 'addAttribute'])->name('addAttribute');

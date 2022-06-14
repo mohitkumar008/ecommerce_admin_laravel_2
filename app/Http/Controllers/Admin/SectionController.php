@@ -16,7 +16,7 @@ class SectionController extends Controller
     public function index()
     {
         $result['data'] = Section::all();
-        return view('admin/section', $result);
+        return view('admin/sections/section', $result);
     }
 
     public function change_status(Section $section, $status, $id)

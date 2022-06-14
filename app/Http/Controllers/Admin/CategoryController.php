@@ -17,7 +17,7 @@ class CategoryController extends Controller
         // echo "<pre>";
         // print_r($result['data'][0]['parentCategory']);
         // die();
-        return view('admin/categories', $result);
+        return view('admin/categories/categories', $result);
     }
 
     public function change_status(Request $request)
@@ -45,7 +45,7 @@ class CategoryController extends Controller
             // print_r($getCategory);
             // die();
 
-            return view('admin/appendCategoryLevel')->with(compact('getCategory'));
+            return view('admin/categories/appendCategoryLevel')->with(compact('getCategory'));
         }
     }
 
@@ -54,6 +54,7 @@ class CategoryController extends Controller
         if ($id == "") {
             $msg = '*Category added successfully';
             $result['page_title'] = "Add Category";
+            $result['categoryData'] = "";
             $category = new Category;
         } else {
             $msg = '*Category updated successfully';
@@ -63,9 +64,6 @@ class CategoryController extends Controller
             $result['getCategory'] = json_decode(json_encode($result['getCategory']), true);
 
             $category = Category::find($id);
-            // echo "<pre>";
-            // print_r($result['getCategory']);
-            // die();
         }
 
         //Get Section
@@ -102,7 +100,6 @@ class CategoryController extends Controller
             $category->parent_id = $data['parent_category'];
             $category->section_id = $data['sectionData'];
             $category->category_name = $data['category_name'];
-            // $category->category_image = $data['sectionData'];
             $category->category_discount = $data['category_discount'];
             $category->description = $data['category_desc'];
             $category->url = $data['category_url'];
@@ -113,7 +110,8 @@ class CategoryController extends Controller
             $category->save();
             return redirect('/admin/categories')->with('flash_msg', $msg);
         }
-        return view('/admin/manage-category', $result);
+        // prx($result);
+        return view('/admin/categories/manage-category', $result);
     }
 
     public function deleteCategory(Request $request)

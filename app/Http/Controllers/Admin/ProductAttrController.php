@@ -50,7 +50,7 @@ class ProductAttrController extends Controller
         } else {
             $productAttrData = ProductAttr::where(['pid' => $id])->get();
             $productAttrData = json_decode(json_encode($productAttrData), true);
-            return view('admin.add-attribute')->with(compact('productData', 'productAttrData'));
+            return view('admin.products.add-attribute')->with(compact('productData', 'productAttrData'));
         }
     }
 

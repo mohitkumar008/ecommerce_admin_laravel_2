@@ -66,8 +66,14 @@
                                             {{ $loop->iteration }}.
                                         </td>
                                         <td>
-                                            <img src="{{ url('storage/media/category_images/' . $list->category_image . '') }}"
-                                                alt="image">
+                                            {{-- <img src="{{ url('storage/media/category_images/' . $list->category_image . '') }}"
+                                                alt="image"> --}}
+                                            @if ($list->category_image != '')
+                                                <img src="{{ url('storage/media/category_images/' . $list->category_image . '') }}"
+                                                    alt="image">
+                                            @else
+                                                <img src="{{ asset('admin_assets/images/demo.jpg') }}" alt="image">
+                                            @endif
 
                                         </td>
                                         <td>

@@ -54,9 +54,6 @@
                                         Featured
                                     </th>
                                     <th>
-                                        Status
-                                    </th>
-                                    <th>
                                         Action
                                     </th>
                                 </tr>
@@ -97,13 +94,6 @@
                                             {{ $list['is_featured'] }}
                                         </td>
                                         <td>
-                                            @if ($list['status'] == 1)
-                                                <span class="text-success">Active</span>
-                                            @else
-                                                <span class="text-danger">Inactive</span>
-                                            @endif
-                                        </td>
-                                        <td>
                                             @csrf
                                             <div class="template-demo d-flex justify-content-between flex-nowrap">
                                                 @if ($list['status'] == 1)
@@ -125,7 +115,7 @@
                                                     <i class="mdi mdi-library-plus"></i>
                                                 </a>
                                                 <a type="button" href="{{ route('addGallery', ['id' => $list['id']]) }}"
-                                                    title="Add Gallery"
+                                                    title="Add Gallery Images"
                                                     class="btn btn-inverse-warning btn-rounded btn-icon flex-align-justify-center">
                                                     <i class="mdi mdi-image-multiple"></i>
                                                 </a>

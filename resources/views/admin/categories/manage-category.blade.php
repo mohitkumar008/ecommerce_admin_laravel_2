@@ -33,7 +33,7 @@
                     @endif
                     <p class="card-description">All(*) fields are required</p>
                     <form class="forms-sample" method="post"
-                        @if (!isset($categoryData)) action="{{ url('/admin/categories/manage-category') }}" @else action="{{ url('/admin/categories/manage-category/' . $categoryData->id . '') }}" @endif
+                        @if (empty($categoryData)) action="{{ url('/admin/categories/manage-category') }}" @else action="{{ url('/admin/categories/manage-category/' . $categoryData->id . '') }}" @endif
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
@@ -49,18 +49,18 @@
                             </select>
                         </div>
                         <div id="appendCategoryLevel">
-                            @include('admin.appendCategoryLevel')
+                            @include('admin.categories.appendCategoryLevel')
                         </div>
                         <div class="form-group">
                             <label for="category_name">Category Name<span class="text-warning">*</span></label>
                             <input type="text" class="form-control"
-                                @if (isset($categoryData)) value="{{ $categoryData->category_name }}" @else value="{{ old('category_name') }}" @endif
+                                @if (!empty($categoryData)) value="{{ $categoryData->category_name }}" @else value="{{ old('category_name') }}" @endif
                                 id="category_name" name="category_name" placeholder="Category Name">
                         </div>
                         <div class="form-group">
                             <label for="category_url">Category Url<span class="text-warning">*</span></label>
                             <input type="text" class="form-control" id="category_url" name="category_url"
-                                @if (isset($categoryData)) value="{{ $categoryData->url }}" @else value="{{ old('category_url') }}" @endif
+                                @if (!empty($categoryData)) value="{{ $categoryData->url }}" @else value="{{ old('category_url') }}" @endif
                                 placeholder="Category Url">
                         </div>
                         <div class="form-group">
@@ -77,13 +77,13 @@
                         <div class="form-group">
                             <label for="category_discount">Category Discount</label>
                             <input type="text" class="form-control" id="category_discount" name="category_discount"
-                                @if (isset($categoryData)) value="{{ $categoryData->category_discount }}" @else value="{{ old('category_discount') }}" @endif
+                                @if (!empty($categoryData)) value="{{ $categoryData->category_discount }}" @else value="{{ old('category_discount') }}" @endif
                                 placeholder="Category Discount">
                         </div>
                         <div class="form-group">
                             <label for="category_desc">Description</label>
                             <textarea class="form-control" id="category_desc" name="category_desc" rows="4">
-@if (isset($categoryData))
+@if (!empty($categoryData))
 {{ $categoryData->description }}
 @else
 {{ old('category_desc') }}
@@ -93,19 +93,19 @@
                         <div class="form-group">
                             <label for="meta_title">Meta Title</label>
                             <input type="text" class="form-control" id="meta_title" name="meta_title"
-                                @if (isset($categoryData)) value="{{ $categoryData->meta_title }}" @else value="{{ old('meta_title') }}" @endif
+                                @if (!empty($categoryData)) value="{{ $categoryData->meta_title }}" @else value="{{ old('meta_title') }}" @endif
                                 placeholder="Meta Title">
                         </div>
                         <div class="form-group">
                             <label for="meta_desc">Meta Description</label>
                             <input type="text" class="form-control" id="meta_desc" name="meta_desc"
-                                @if (isset($categoryData)) value="{{ $categoryData->meta_desc }}" @else value="{{ old('meta_desc') }}" @endif
+                                @if (!empty($categoryData)) value="{{ $categoryData->meta_desc }}" @else value="{{ old('meta_desc') }}" @endif
                                 placeholder="Meta Description">
                         </div>
                         <div class="form-group">
                             <label for="meta_keywords">Meta Keywords</label>
                             <input type="text" class="form-control" id="meta_keywords" name="meta_keywords"
-                                @if (isset($categoryData)) value="{{ $categoryData->meta_keyword }}" @else value="{{ old('meta_keywords') }}" @endif
+                                @if (!empty($categoryData)) value="{{ $categoryData->meta_keyword }}" @else value="{{ old('meta_keywords') }}" @endif
                                 placeholder="Meta Keywords">
                         </div>
                         <button type="submit" class="btn btn-primary me-2">Submit</button>

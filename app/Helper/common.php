@@ -1,6 +1,7 @@
 <?php
-function prx($str){
-    echo "<pre>";
-    print_r($str);
-    echo "</pre>";
+function prx($arr)
+{
+    echo '<pre>';
+    print_r($arr);
+    die();
 }

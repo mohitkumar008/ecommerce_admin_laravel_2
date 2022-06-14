@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+
 use App\Models\Section;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class ProductController extends Controller
     {
         $productData = Product::with('section', 'category')->get();
         $productData = json_decode(json_encode($productData), true);
-        return view('admin.products')->with(compact('productData'));
+        return view('admin.products.products')->with(compact('productData'));
     }
 
     public function change_status(Request $request)
@@ -124,13 +125,6 @@ class ProductController extends Controller
             $product->save();
             return redirect('/admin/products')->with('flash_msg', $msg);
         }
-        return view('/admin/manage-product')->with(compact('page_title', 'productData', 'category'));
-    }
-
-    public function addGallery(Request $request, $id)
-    {
-        $productData = Product::find($id);
-        $productData = json_decode(json_encode($productData), true);
-        return view('admin.add-gallery')->with(compact('productData'));
+        return view('/admin/products/manage-product')->with(compact('page_title', 'productData', 'category'));
     }
 }

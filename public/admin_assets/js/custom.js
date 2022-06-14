@@ -5,6 +5,13 @@ $('#product_name').keyup(function () {
     $('#product_url').val(getUrl);
 })
 
+$('#category_name').keyup(function () {
+    var getUrl = this.value
+    getUrl = getUrl.toLowerCase().replaceAll(" ", "-");
+    // console.log(getUrl);
+    $('#category_url').val(getUrl);
+})
+
 // Check current password
 $('#curr_pwd').keyup(function () {
     let curr_pwd = $('#curr_pwd').val();
@@ -225,4 +232,64 @@ function deleteAttr(id) {
                 })
             }
         });
+}
+
+function deleteGalleryImage(id, action) {
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this image!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/products/deleteGalleryImage`,
+                    data: { id: id, _token: _token, action: action },
+                    success: async function (response) {
+                        await swal("Poof! Image has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            }
+        });
+}
+
+function replaceGalleryImage(id) {
+    let _token = $("input[name=_token]").val();
+    let input = $('input[name=replaceImg]');
+    input.trigger('click');
+    $(input).change(function () {
+        $('#replaceImgId').val(id);
+        let formData = new FormData($('#replaceImageform')[0]);
+        let file = $('input[name=replaceImg]')[0].files[0];
+        formData.append('file', file, file.name);
+        $.ajax({
+            url: '/admin/products/replaceGalleryImage',
+            headers: { 'X-CSRF-TOKEN': $('input[name="_token"]').attr('content') },
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: formData,
+            success: async function (response) {
+                if (response == 'success') {
+                    await swal("Good job!", "You image has been successfully replaced!", "success");
+                    window.location.reload();
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    })
 }
