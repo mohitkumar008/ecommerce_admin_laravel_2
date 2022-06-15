@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductAttrController;
 use App\Http\Controllers\Admin\ProdcutImageController;
+use App\Http\Controllers\Admin\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,38 +31,64 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('/admin')->group(function () {
     Route::any('/', [AdminController::class, 'login']);
+
     Route::group(['middleware' => ['admin']], function () {
-        Route::get('dashboard', [AdminController::class, 'dashboard']);
-        Route::get('settings', [AdminController::class, 'settings']);
-        Route::post('check-curr-pwd', [AdminController::class, 'check_curr_pwd']);
-        Route::post('change-password', [AdminController::class, 'change_pwd']);
-        Route::post('update-profile', [AdminController::class, 'update_profile']);
-        Route::get('logout', [AdminController::class, 'logout']);
+        //AdminController
+        Route::controller(AdminController::class)->group(function () {
+            Route::get('dashboard', 'dashboard');
+            Route::get('settings', 'settings');
+            Route::post('check-curr-pwd', 'check_curr_pwd');
+            Route::post('change-password', 'change_pwd');
+            Route::post('update-profile', 'update_profile');
+            Route::get('logout', 'logout');
+        });
 
         //SectionController
-        Route::get('section', [SectionController::class, 'index']);
-        Route::get('section/{status}/{id}', [SectionController::class, 'change_status']);
+        Route::controller(SectionController::class)->group(function () {
+            Route::get('section', 'index');
+            Route::get('section/{status}/{id}', 'change_status');
+        });
 
         //CategoryController
-        Route::get('categories', [CategoryController::class, 'index']);
-        Route::post('category/changeStatus', [CategoryController::class, 'change_status']);
-        Route::post('category/deleteCategory', [CategoryController::class, 'deleteCategory']);
-        Route::any('categories/manage-category/{id?}', [CategoryController::class, 'manage_category'])->name('manageCategory');
-        Route::post('append-category-level', [CategoryController::class, 'appendCategoryLevel']);
+        Route::controller(CategoryController::class)->group(function () {
+            Route::get('categories', 'index');
+            Route::post('category/changeStatus', 'change_status');
+            Route::post('category/deleteCategory', 'deleteCategory');
+            Route::any('categories/manage-category/{id?}', 'manage_category')->name('manageCategory');
+            Route::post('append-category-level', 'appendCategoryLevel');
+        });
 
         //ProductController
-        Route::get('products', [ProductController::class, 'index']);
-        Route::post('products/changeStatus', [ProductController::class, 'change_status']);
-        Route::post('products/deleteProduct', [ProductController::class, 'deleteProduct']);
-        Route::any('products/manage-product/{id?}', [ProductController::class, 'manage_product'])->name('manageProduct');
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('products', 'index');
+            Route::post('products/changeStatus', 'change_status');
+            Route::post('products/deleteProduct', 'deleteProduct');
+            Route::any('products/manage-product/{id?}', 'manage_product')->name('manageProduct');
+        });
 
         // ProdcutImageController
-        Route::any('products/addGallery/{id?}', [ProdcutImageController::class, 'addGallery'])->name('addGallery');
-        Route::post('products/replaceGalleryImage', [ProdcutImageController::class, 'replaceImage']);
-        Route::post('products/deleteGalleryImage', [ProdcutImageController::class, 'deleteImage']);
+        Route::controller(ProdcutImageController::class)->group(function () {
+            Route::any('products/addGallery/{id?}', 'addGallery')->name('addGallery');
+            Route::post('products/replaceGalleryImage', 'replaceImage');
+            Route::post('products/deleteGalleryImage', 'deleteImage');
+        });
 
         //ProductAttrController
-        Route::any('products/add-attribute/{id?}', [ProductAttrController::class, 'addAttribute'])->name('addAttribute');
-        Route::post('products/deleteAttr', [ProductAttrController::class, 'deleteAttribute']);
+        Route::controller(ProductAttrController::class)->group(function () {
+            Route::any('products/add-attribute/{id?}', 'addAttribute')->name('addAttribute');
+            Route::post('products/deleteAttr', 'deleteAttribute');
+        });
+
+        //CouponController
+        Route::controller(CouponController::class)->group(function () {
+            Route::get('coupons', 'index');
+            Route::post('coupon/changeStatus', 'change_status');
+            Route::post('coupon/deleteCoupon', 'deleteCoupon');
+            Route::any('coupon/manage-coupon/{id?}', 'manage_coupon')->name('manageCoupon');
+        });
+
+        Route::fallback(function () {
+            return view('admin.404');
+        });
     });
 });

@@ -29,6 +29,10 @@ select.form-control,
     padding: 0.875rem 1.375rem !important;
 }
 
+select.form-control {
+    color: #212529 !important;
+}
+
 #add-attr-btn {
     width: 200px !important;
     height: 200px !important;

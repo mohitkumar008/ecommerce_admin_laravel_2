@@ -293,3 +293,70 @@ function replaceGalleryImage(id) {
         });
     })
 }
+
+function changeCouponStatus(id, action) {
+    if (action == 'activate') {
+        var $msg = 'If the coupon is activated, it will be visible on the Website';
+    } else {
+        var $msg = 'If the coupon is deactivated, it will be removed from the Website';
+    }
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: $msg,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/coupon/changeStatus`,
+                    data: { id: id, action: action, _token: _token },
+                    success: async function (response) {
+                        await swal(`Poof! Your coupon has been ${response}`, {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            }
+        });
+}
+
+function deleteCoupon(id, action) {
+    let _token = $("input[name=_token]").val();
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this coupon!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    method: 'POST',
+                    url: `/admin/coupon/deleteCoupon`,
+                    data: { id: id, action: action, _token: _token },
+                    success: async function (response) {
+                        await swal("Poof! Your coupon has been deleted!", {
+                            icon: "success",
+                        });
+                        window.location.reload()
+                    },
+                    error: function (response) {
+                        alert(response);
+                    }
+
+                })
+            } else {
+                swal("Your coupon is safe!");
+            }
+        });
+}

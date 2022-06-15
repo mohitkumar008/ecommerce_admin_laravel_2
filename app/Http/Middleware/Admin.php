@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class Admin
@@ -17,7 +17,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::guard('admin')->check()){
+        if (!Auth::guard('admin')->check()) {
             return redirect('/admin')->with('err', 'Please login to enter');
         }
         return $next($request);
