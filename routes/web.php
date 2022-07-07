@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductAttrController;
 use App\Http\Controllers\Admin\ProdcutImageController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,14 @@ Route::prefix('/admin')->group(function () {
             Route::post('coupon/changeStatus', 'change_status');
             Route::post('coupon/deleteCoupon', 'deleteCoupon');
             Route::any('coupon/manage-coupon/{id?}', 'manage_coupon')->name('manageCoupon');
+        });
+
+        //BrandController
+        Route::controller(BrandController::class)->group(function () {
+            Route::get('brands', 'index');
+            Route::post('brand/changeStatus', 'change_status');
+            Route::post('brand/deleteBrand', 'deleteBrand');
+            Route::any('brand/manage-brand/{id?}', 'manage_brand')->name('manageBrand');
         });
 
         Route::fallback(function () {

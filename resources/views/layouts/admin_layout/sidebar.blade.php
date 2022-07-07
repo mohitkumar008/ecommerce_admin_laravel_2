@@ -31,5 +31,11 @@
                 <span class="menu-title">Coupons</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/brands') }}">
+                <i class="mdi mdi-trophy-award menu-icon"></i>
+                <span class="menu-title">Brands</span>
+            </a>
+        </li>
     </ul>
 </nav>
